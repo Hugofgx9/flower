@@ -6,7 +6,7 @@ const CONFIG = {
 		new paper.Point(random(-40, 40), random(-40, 40)),
 		new paper.Point(random(-40, 40), random(-40, 40))
 	],
-	petal_width: random(0, 60),
+	petal_width: random(10, 60),
 	petal_height: random(-30, 30),
 	pistill_radius: random(2, 40, true),
 	nb_petal: random(6, 20, true)
