@@ -1,26 +1,25 @@
 import paper from 'paper';
+import { random } from './utils';
 import { makeFlower } from "./flower";
 import { generateSentence } from './generation';
 import blow from 'on-blow';
 
-generateSentence();
 
-
-blow.run({ onFNlc: 4000 });
-blow.events.on('start', () => console.log('user blew'));
+// blow.run({ onFNlc: 4000 });
+// blow.events.on('start', () => console.log('user blew'));
 
 
 const canvas = document.querySelector('canvas');
-// Create an empty project and a view for the canvas:
 paper.setup(canvas);
 
 const width = paper.view.size.width;
 const height = paper.view.size.height;
 
-
 const background = new paper.Path.Rectangle(0, 0, width, height);
 background.fillColor = 'lightblue';
-makeFlower();
+
+// makeFlower();
+generateSentence();
 
 
 

@@ -1,45 +1,27 @@
 import paper from 'paper';
+import { CONFIG } from './config';
 import { random } from './utils';
 
-const CONFIG = {
-	controls: [
-		new paper.Point(random(-40, 40), random(-40, 40)),
-		new paper.Point(random(-40, 40), random(-40, 40))
-	],
-	petal_width: random(10, 60),
-	petal_height: random(-30, 30),
-	pistill_radius: random(2, 40, true),
-	nb_petal: random(6, 20, true)
-};
+export function makeFlower(center) {
 
-export function makeFlower() {
-	
-	const width = paper.view.size.width;
-	const height = paper.view.size.height;
-
-	const center = [width / 2, height / 2];
+	// flower
 	const nb_petal = CONFIG.nb_petal;
 	const petals = [];
+	const petal_color = {
+		hue: CONFIG.color.petal.h + random(-1, 1) * 10,
+		saturation: CONFIG.color.petal.s + random(-1, 1) * 0.2,
+		brightness: CONFIG.color.petal.b + random(-1, 1) * 0.2,
+	};
+	const pistill_color = {...petal_color};
+	pistill_color.brightness += 0.2;
+	pistill_color.saturation += 0.2;
 
+	// pistill
 	const pistill = new paper.Path.Circle(center, CONFIG.pistill_radius);
-	pistill.fillColor = "orange";
-
-	for (let i = 0; i < nb_petal; i++) {
-
-		const petal = makePetal(center);
-
-		const rad = i / nb_petal * Math.PI * 2;
-		petal.pivot = [width / 2, height / 2];
-		petal.rotate(rad * (180 / Math.PI));
-		petal.fillColor = "blue";
-		petals.push(petal);
-	}
-
-}
-
-function makePetal(center) {
-
-	const dist_from_center = CONFIG.pistill_radius;
+	pistill.fillColor = pistill_color;
+	
+	// petal
+	const dist_from_center = CONFIG.petal_offset_from_pistill;
 	const petal_width = CONFIG.petal_width;
 	const petal_height = CONFIG.petal_height;
 	const cp = CONFIG.controls;
@@ -49,14 +31,27 @@ function makePetal(center) {
 	const endX = startX + petal_width;
 	const endY = startY + petal_height;
 
-	const petal = new paper.Path({
-		segments:
-			[
-				[startX, startY, cp[0].x, cp[0].y, cp[0].x, -cp[0].y],
-				[endX, endY, -cp[1].x, cp[1].y, -cp[1].x, -cp[1].y],
-			],
-	});
-	petal.closePath();
+	for (let i = 0; i < nb_petal; i++) {
 
-	return petal;
+		const petal = makePetal();
+		const rad = i / nb_petal * Math.PI * 2;
+		petal.pivot = center;
+		petal.rotate(rad * (180 / Math.PI));
+		petal.fillColor = petal_color;
+		petals.push(petal);
+	}
+	
+	function makePetal() {
+	
+		const petal = new paper.Path({
+			segments:
+				[
+					[startX, startY, cp[0].x, cp[0].y, cp[0].x, -cp[0].y],
+					[endX, endY, -cp[1].x, cp[1].y, -cp[1].x, -cp[1].y],
+				],
+		});
+		petal.closePath();
+	
+		return petal;
+	}
 }
