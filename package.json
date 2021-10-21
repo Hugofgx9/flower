@@ -17,6 +17,8 @@
     "parcel": "^2.0.0-beta.3.1"
   },
   "dependencies": {
+    "@tensorflow-models/handpose": "^0.0.7",
+    "@tensorflow/tfjs-core": "^3.9.0",
     "dat.gui": "^0.7.7",
     "i": "^0.3.7",
     "npm": "^8.1.0",

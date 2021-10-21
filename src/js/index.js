@@ -4,6 +4,7 @@ import { makeFlower } from "./flower";
 import { generateSentence } from './generation';
 import blow from 'on-blow';
 
+import './detection';
 
 // blow.run({ onFNlc: 4000 });
 // blow.events.on('start', () => console.log('user blew'));
