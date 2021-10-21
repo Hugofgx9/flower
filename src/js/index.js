@@ -7,6 +7,7 @@ window.myEvents = myEvents;
 
 import './detection_head';
 
+
 //CANVAS
 const canvas = document.querySelector('canvas');
 paper.setup(canvas);
@@ -19,12 +20,13 @@ background.fillColor = 'lightblue';
 
 const plantes = [];
 
-window.myEvents.on("newFaces", (nb) => {
+myEvents.on("newFaces", (nb) => {
 	for (let i = 0; i < nb; i++) {
 		plantes.push(new PlanteBuilder());
 	}
 });
-window.myEvents.on("lostFaces", (nb) => {
+
+myEvents.on("lostFaces", (nb) => {
 	if (plantes.length) {
 		for (let i = 0; i < nb; i++) {
 			plantes[i].remove();
@@ -32,24 +34,4 @@ window.myEvents.on("lostFaces", (nb) => {
 		}
 	}
 });
-// });
-// window.myEvents.on("newFaces", () => {
-// 	plantes.push(new PlanteBuilder());
-// });
-
-
-// 	makeFlower(mouse_pos)
-
-// 	last_pos = mouse_pos;
-// });
-
-// window.myEvents.on("fingermove", (pos) => {
-// 	pos[0] = pos[0] * width;
-// 	pos[1] = pos[1] * height;
-// 	// console.log('finger', pos);
-// 	makeFlower(pos)
-// });
-
-
-
-
+// myEvents.emit('newFaces', 1)

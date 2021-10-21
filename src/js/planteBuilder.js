@@ -10,6 +10,7 @@ export default class PlanteBuilder {
 	constructor(bottom) {
 
 		this.group = new paper.Group();
+		this.flower = [];
 
 		const width = paper.view.size.width;
 		const height = paper.view.size.height;
@@ -89,6 +90,7 @@ export default class PlanteBuilder {
 			}
 			else if (char === '*') {
 				const flower = new Flower(current_pos.at(-1), this.config);
+				this.flower.push(flower)
 				this.group.addChild(flower.group);
 			}
 		}
@@ -113,6 +115,7 @@ export default class PlanteBuilder {
 	}
 
 	remove() {
+		this.flower.forEach( flower => flower.remove() )
 		gsap.fromTo(this.group, {
 			opacity: 1
 		}, {

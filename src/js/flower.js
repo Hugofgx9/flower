@@ -31,18 +31,31 @@ export default class Flower {
 
 		// pistill
 		const pistill_radius = this.config.pistill_radius + random(-1, 1) * 4;
-		const pistill = new paper.Path.Circle(this.center, pistill_radius);
-		pistill.fillColor = pistill_color;
-		this.group.addChild(pistill);
+		this.pistill = new paper.Path.Circle(this.center, pistill_radius);
+		this.pistill.fillColor = pistill_color;
+		this.group.addChild(this.pistill);
 
-		gsap.fromTo(pistill, {
-			opacity: 0
-		}, {
-			opacity: 1,
-			duration: 0.5,
-			onUpdate: () => {
-			}
-		});
+		for (let i = 0; i < 4; i++) {
+			gsap.from(this.pistill.segments[i].point, {
+				x: this.pistill.position.x,
+				y: this.pistill.position.y,
+				ease: 'power2.inOut',
+				duration: 1,
+			})
+			gsap.from(this.pistill.segments[i].handleIn, {
+				x: 0,
+				y: 0,
+				ease: 'power2.inOut',
+				duration: 1,
+			})
+			gsap.from(this.pistill.segments[i].handleOut, {
+				x: 0,
+				y: 0,
+				ease: 'power2.inOut',
+				duration: 1,
+			})
+		}
+
 
 		// petal
 		const dist_from_center = this.config.petal_offset_from_pistill + random(-1, 1) * 4;
@@ -66,22 +79,44 @@ export default class Flower {
 			cloned_petal.pivot = this.center;
 			cloned_petal.rotate(rad * (180 / Math.PI));
 			cloned_petal.fillColor = this.petal_color;
-			
+
 			this.petals.addChild(cloned_petal);
 		}
 
-		// console.log( this.petals.children );
-		
-		gsap.fromTo(this.petals.children, {
-			opacity: 0
-		}, {
-			opacity: 1,
-			duration: 0.6,
-			stagger: 0.01,
-			ease: "power2.inOut",
+		this.petals.children.forEach(petal => {
+			const tl = gsap.timeline();
+			tl.from(petal, {
+				duration: 0.4,
+				opacity: 0,
+				ease: "power2.out"
+			},0);
+			tl.from(petal.segments[1].point, {
+				duration: 0.6,
+				length: petal.segments[0].point.length,
+				ease: "power2.out"
+			}, 0)
+			tl.from(petal.segments[1].handleIn, {
+				duration: 0.9,
+				length: 0,
+				ease: "power2.out"
+			}, '>-=0.2');
+			tl.from(petal.segments[1].handleOut, {
+				duration: 0.9,
+				length: 0,
+				ease: "power2.out"
+			},'<');
+			tl.from(petal.segments[0].handleOut, {
+				duration: 1.2,
+				length: 0,
+				ease: "power2.out"
+			}, '<');
+			tl.from(petal.segments[0].handleIn, {
+				duration: 0.9,
+				length: 0,
+				ease: "power2.out"
+			},'<+=0.2');
 		});
 	}
-
 
 	makePetal() {
 		const { startX, startY, cp, endX, endY } = this.petal_pos;
@@ -95,5 +130,58 @@ export default class Flower {
 		petal.closePath();
 
 		return petal;
+	}
+
+	remove(){
+		this.petals.children.forEach(petal => {
+			const tl = gsap.timeline();
+			// tl.to(petal, {
+			// 	duration: 0.4,
+			// 	opacity: 0,
+			// 	ease: "power2.out"
+			// },0);
+			tl.to(petal.segments[1].handleIn, {
+				duration: 0.9,
+				length: 0,
+				ease: "power2.out"
+			}, '>-=0.2');
+			tl.to(petal.segments[1].handleOut, {
+				duration: 0.9,
+				length: 0,
+				ease: "power2.out"
+			},'<');
+			tl.to(petal.segments[0].handleOut, {
+				duration: 1.2,
+				length: 0,
+				ease: "power2.out"
+			}, '<');
+			tl.to(petal.segments[0].handleIn, {
+				duration: 0.9,
+				length: 0,
+				ease: "power2.out"
+			},'<+=0.2');
+		});
+
+		for (let i = 0; i < 4; i++) {
+			gsap.to(this.pistill.segments[i].point, {
+				x: this.pistill.position.x,
+				y: this.pistill.position.y,
+				ease: 'power2.inOut',
+				duration: 1,
+			})
+			gsap.to(this.pistill.segments[i].handleIn, {
+				x: 0,
+				y: 0,
+				ease: 'power2.inOut',
+				duration: 1,
+			})
+			gsap.to(this.pistill.segments[i].handleOut, {
+				x: 0,
+				y: 0,
+				ease: 'power2.inOut',
+				duration: 1,
+			})
+		}
+
 	}
 }
