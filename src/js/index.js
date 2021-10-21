@@ -1,17 +1,11 @@
 import paper from 'paper';
-import { random } from './utils';
-import { makeFlower } from "./flower";
-import { generateSentence } from './generation';
-import blow from 'on-blow';
+import PlanteBuilder from './planteBuilder';
 import EventEmitter from 'events';
-
 
 const myEvents = new EventEmitter();
 window.myEvents = myEvents;
 
-// blow.run({ onFNlc: 4000 });
-// blow.events.on('start', () => console.log('user blew'));
-import './detection';
+import './detection_head';
 
 //CANVAS
 const canvas = document.querySelector('canvas');
@@ -25,24 +19,12 @@ background.fillColor = 'lightblue';
 
 // generateSentence();
 
-let last_pos;
-// document.addEventListener('mousemove', (ev) => {
-// 	const mouse_pos = [ev.clientX, ev.clientY];
-// 	// if (last_pos) {
-// 	// 	const diff_x = mouse_pos[0] - last_pos[0];
-// 	// 	const diff_y = mouse_pos[1] - last_pos[1];
-// 	// 	const dist = Math.hypot(diff_x, diff_y);
+window.myEvents.on("newFaces", () => {
+	new PlanteBuilder();
+});
 
-// 	// 	for(let i = 0; i < dist; i++){
-// 	// 		const point = [
-// 	// 			last_pos[0] + diff_x * (i/dist),
-// 	// 			last_pos[1] + diff_y * (i/dist),
-// 	// 		]
-// 	// 		makeFlower(point)
-// 	// 	}
-// 	// }
 
-// 	// makeFlower(mouse_pos)
+// 	makeFlower(mouse_pos)
 
 // 	last_pos = mouse_pos;
 // });

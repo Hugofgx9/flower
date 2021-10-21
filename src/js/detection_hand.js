@@ -25,6 +25,7 @@ async function setup() {
 	await setupModel();
 	await setupCam();
 	$video.addEventListener('loadeddata', () => {
+		console.log('prediction');
 		runPrediction();
 		// setInterval(() => {
 		// }, 100);

@@ -1,5 +1,5 @@
 {
-  "name": "ogl_starter",
+  "name": "flower_blow",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -9,23 +9,25 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "browserslist": "> 0.2%",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "devDependencies": {
     "@parcel/transformer-glsl": "^2.0.0-beta.3.1",
     "@parcel/transformer-sass": "^2.0.0-beta.3.1",
     "eslint": "^7.22.0",
-    "parcel": "^2.0.0-beta.3.1"
+    "parcel": "^2.0.0"
   },
   "dependencies": {
+    "@tensorflow-models/blazeface": "^0.0.7",
+    "@tensorflow-models/body-pix": "^2.2.0",
     "@tensorflow-models/handpose": "^0.0.7",
     "@tensorflow/tfjs-core": "^3.9.0",
+    "@tensorflow/tfjs-node": "^3.9.0",
     "dat.gui": "^0.7.7",
     "events": "^3.3.0",
+    "face-api.js": "^0.22.2",
     "gsap": "^3.8.0",
-    "i": "^0.3.7",
-    "npm": "^8.1.0",
     "on-blow": "^1.0.0",
-    "p5": "^1.4.0",
-    "paper": "^0.12.15"
+    "paper": "^0.12.15",
+    "tweakpane": "^3.0.5"
   }
 }
