@@ -6,10 +6,10 @@ export const CONFIG = {
 		new paper.Point(random(-20, 20), random(-20, 20)),
 		new paper.Point(random(-20, 20), random(-20, 20))
 	],
-	petal_width: random(2, 20),
-	petal_height: random(-10, 10),
-	petal_offset_from_pistill: random(-2, 10),
-	pistill_radius: random(1, 11, true),
+	petal_width: random(10, 35),
+	petal_height: random(-20, 20),
+	petal_offset_from_pistill: random(-2, 18),
+	pistill_radius: random(1, 18, true),
 	nb_petal: random(6, 20, true),
 	branch_length: {
 		min: 15,
