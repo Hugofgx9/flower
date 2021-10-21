@@ -17,11 +17,25 @@ const height = paper.view.size.height;
 const background = new paper.Path.Rectangle(0, 0, width, height);
 background.fillColor = 'lightblue';
 
-// generateSentence();
+const plantes = [];
 
-window.myEvents.on("newFaces", () => {
-	new PlanteBuilder();
+window.myEvents.on("newFaces", (nb) => {
+	for (let i = 0; i < nb; i++) {
+		plantes.push(new PlanteBuilder());
+	}
 });
+window.myEvents.on("lostFaces", (nb) => {
+	if (plantes.length) {
+		for (let i = 0; i < nb; i++) {
+			plantes[i].remove();
+			plantes.shift();
+		}
+	}
+});
+// });
+// window.myEvents.on("newFaces", () => {
+// 	plantes.push(new PlanteBuilder());
+// });
 
 
 // 	makeFlower(mouse_pos)

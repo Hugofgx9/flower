@@ -7,18 +7,22 @@ export default class Flower {
 		this.center = center;
 		this.config = config;
 
-		this.petals = [];
+		this.group = new paper.Group();
+		this.petals = new paper.Group();
+		this.group.addChild(this.petals);
+
+
 		this.petal_color = {
 			hue: this.config.color.petal.h + random(-1, 1) * 25,
 			saturation: this.config.color.petal.s + random(-1, 1) * 0.2,
 			brightness: this.config.color.petal.b + random(-1, 1) * 0.2,
 		};
 
-		this.makeFlower()
+		this.makeFlower();
 	}
-	
+
 	makeFlower() {
-		
+
 		// flower
 		const nb_petal = this.config.nb_petal;
 		const pistill_color = { ...this.petal_color };
@@ -29,6 +33,7 @@ export default class Flower {
 		const pistill_radius = this.config.pistill_radius + random(-1, 1) * 4;
 		const pistill = new paper.Path.Circle(this.center, pistill_radius);
 		pistill.fillColor = pistill_color;
+		this.group.addChild(pistill);
 
 		gsap.fromTo(pistill, {
 			opacity: 0
@@ -45,33 +50,41 @@ export default class Flower {
 		const petal_height = this.config.petal_height;
 
 		this.petal_pos = {
-			cp : this.config.controls,
-			startX : this.center[0] + dist_from_center,
-			startY : this.center[1],
-			endX : this.center[0] + dist_from_center + petal_width,
-			endY : this.center[1] + petal_height,
-		}
+			cp: this.config.controls,
+			startX: this.center[0] + dist_from_center,
+			startY: this.center[1],
+			endX: this.center[0] + dist_from_center + petal_width,
+			endY: this.center[1] + petal_height,
+		};
+
 
 		const petal = this.makePetal();
+		this.petals.addChild(petal);
 		for (let i = 0; i < nb_petal; i++) {
 			const cloned_petal = petal.clone();
 			const rad = i / nb_petal * Math.PI * 2;
 			cloned_petal.pivot = this.center;
 			cloned_petal.rotate(rad * (180 / Math.PI));
 			cloned_petal.fillColor = this.petal_color;
-
-			gsap.fromTo(cloned_petal, {
-				opacity: 0
-			}, {
-				opacity: 1,
-				duration: 1
-			});
+			
+			this.petals.addChild(cloned_petal);
 		}
+
+		// console.log( this.petals.children );
+		
+		gsap.fromTo(this.petals.children, {
+			opacity: 0
+		}, {
+			opacity: 1,
+			duration: 0.6,
+			stagger: 0.01,
+			ease: "power2.inOut",
+		});
 	}
 
 
 	makePetal() {
-		const {startX, startY, cp, endX, endY} = this.petal_pos;
+		const { startX, startY, cp, endX, endY } = this.petal_pos;
 		const petal = new paper.Path({
 			segments:
 				[
@@ -83,4 +96,4 @@ export default class Flower {
 
 		return petal;
 	}
-} 
+}

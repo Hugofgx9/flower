@@ -2,17 +2,20 @@ import { newConfig } from "./config";
 import paper from 'paper';
 import Flower from "./flower";
 import { random } from "./utils";
+import gsap from "gsap";
 
 
 export default class PlanteBuilder {
 
 	constructor(bottom) {
 
+		this.group = new paper.Group();
+
 		const width = paper.view.size.width;
 		const height = paper.view.size.height;
 
 		// this.bottom = bottom || [width/2, height]
-		this.bottom = bottom || [random(width * 0.1, width * 0.9), random( height, height * 0.7)]
+		this.bottom = bottom || [random(width * 0.1, width * 0.9), random(height, height * 0.7)];
 		this.rules = [
 			['F', 'F[+F*][][+F][-F*]'],
 			['G', 'F']
@@ -21,9 +24,25 @@ export default class PlanteBuilder {
 		this.iterations = 2;
 		this.config = newConfig();
 
-
 		this.generateSentence();
 		this.turtle();
+
+
+
+		const png = JSON.stringify(document.querySelector('canvas').toDataURL("image/png"));
+		// console.log(reimg);
+		// console.log(png);
+
+		const data = { file: 'yoyo' };
+		// console.log(JSON.stringify(data));
+		// fetch("http://localhost:3000/upload-experience", {
+		// 	method: "POST",
+		// 	// mode: 'cors',
+		// 	body: JSON.stringify(data)
+		// })
+		// 	.then( (res) => { return res.json(); })
+		// 	.then( (data) =>  { alert(JSON.stringify(data)); })
+		// 	;
 	}
 
 	turtle() {
@@ -51,6 +70,8 @@ export default class PlanteBuilder {
 				const line = new paper.Path({ segments: [current_pos.at(-1), new_pos] });
 				line.strokeColor = branch_color;
 				current_pos[current_pos.length - 1] = new_pos;
+
+				this.group.addChild(line);
 			}
 			else if (char === '[') {
 				current_pos.push(current_pos.at(-1));
@@ -67,7 +88,8 @@ export default class PlanteBuilder {
 				current_angle[current_angle.length - 1] -= random(this.config.branch_angl.min, this.config.branch_angl.max);
 			}
 			else if (char === '*') {
-				new Flower(current_pos.at(-1), this.config);
+				const flower = new Flower(current_pos.at(-1), this.config);
+				this.group.addChild(flower.group);
 			}
 		}
 	}
@@ -90,7 +112,13 @@ export default class PlanteBuilder {
 		}
 	}
 
-
-
-
+	remove() {
+		gsap.fromTo(this.group, {
+			opacity: 1
+		}, {
+			opacity: 0,
+			duration: 0.6,
+			ease: "power2.inOut",
+		});
+	}
 }
