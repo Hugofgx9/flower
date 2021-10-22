@@ -30,7 +30,6 @@ export default class PlanteBuilder {
 		setTimeout(() => {
 			this.sendCanvas()
 		}, 1000);
-
 	}
 
 	sendCanvas() {
@@ -48,7 +47,6 @@ export default class PlanteBuilder {
 	}
 
 	turtle() {
-
 
 		const branch_color = {
 			hue: this.config.color.petal.h + random(-1, 1) * 10,
@@ -72,8 +70,14 @@ export default class PlanteBuilder {
 				const line = new paper.Path({ segments: [current_pos.at(-1), new_pos] });
 				line.strokeColor = branch_color;
 				current_pos[current_pos.length - 1] = new_pos;
-
 				this.group.addChild(line);
+
+				gsap.from(line.segments[1].point, {
+					x: line.segments[0].point.x,
+					y: line.segments[0].point.y,
+					duration: .3,
+					delay: i * 0.006, 
+				})
 			}
 			else if (char === '[') {
 				current_pos.push(current_pos.at(-1));

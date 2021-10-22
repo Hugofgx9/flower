@@ -7,7 +7,6 @@ window.myEvents = myEvents;
 
 import './detection_head';
 
-
 //CANVAS
 const canvas = document.querySelector('canvas');
 paper.setup(canvas);
@@ -35,4 +34,8 @@ myEvents.on("lostFaces", (nb) => {
 	}
 });
 
+
 // myEvents.emit('newFaces', 1)
+
+// setInterval(() => {
+// }, 1200);
