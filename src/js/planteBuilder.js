@@ -27,23 +27,24 @@ export default class PlanteBuilder {
 
 		this.generateSentence();
 		this.turtle();
+		setTimeout(() => {
+			this.sendCanvas()
+		}, 1000);
 
+	}
 
+	sendCanvas() {
 
-		const png = JSON.stringify(document.querySelector('canvas').toDataURL("image/png"));
-		// console.log(reimg);
-		// console.log(png);
-
-		const data = { file: 'yoyo' };
-		// console.log(JSON.stringify(data));
-		// fetch("http://localhost:3000/upload-experience", {
-		// 	method: "POST",
-		// 	// mode: 'cors',
-		// 	body: JSON.stringify(data)
-		// })
-		// 	.then( (res) => { return res.json(); })
-		// 	.then( (data) =>  { alert(JSON.stringify(data)); })
-		// 	;
+		const png = document.querySelector('canvas').toDataURL("image/png");
+		const data = { image: { file: png, name: 'screenshot' } };
+		fetch("http://localhost:3000/upload-experience", {
+			method: "POST",
+			headers: { 'Content-Type': 'application/json; charset=utf-8' },
+			body: JSON.stringify(data)
+		})
+			// .then((res) => { log res.json(); })
+			// .then((data) => { alert(JSON.stringify(data)); })
+			;
 	}
 
 	turtle() {
@@ -90,7 +91,7 @@ export default class PlanteBuilder {
 			}
 			else if (char === '*') {
 				const flower = new Flower(current_pos.at(-1), this.config);
-				this.flower.push(flower)
+				this.flower.push(flower);
 				this.group.addChild(flower.group);
 			}
 		}
@@ -115,7 +116,7 @@ export default class PlanteBuilder {
 	}
 
 	remove() {
-		this.flower.forEach( flower => flower.remove() )
+		this.flower.forEach(flower => flower.remove());
 		gsap.fromTo(this.group, {
 			opacity: 1
 		}, {

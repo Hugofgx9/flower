@@ -34,4 +34,5 @@ myEvents.on("lostFaces", (nb) => {
 		}
 	}
 });
+
 // myEvents.emit('newFaces', 1)
